@@ -2,7 +2,7 @@ package services;
 
 /**
  *
- * @author mujta
+ * @author mujtaba
  */
 public class UserService {
     
