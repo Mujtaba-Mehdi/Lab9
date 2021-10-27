@@ -14,7 +14,7 @@
             <input type="text" name="firstname" placeholder="First Name"><br>
             <input type="text" name="lastname" placeholder="Last Name"><br>
             <input type="password" name="password" placeholder="Password"><br>
-            <select name="role" style="width: 13.3em; height: 2em;">
+            <select name="role" style="width: 13.3em; height: 1.9em;">
                 <option value="sysadmin">System Admin</option>
                 <option value="reguser">Regular User</option>
                 <option value="comadmin">Company Admin</option>
@@ -64,7 +64,7 @@
                 <input type="text" name="email" value="${User.email}"><br>
                 <input type="text" name="firstname" value="${User.firstname}"><br>
                 <input type="text" name="lastname" value="${User.lastname}"><br>
-                <select name="role" value="${Role.role}" style="width: 13.3em; height: 2em;">
+                <select name="role" value="${Role.role}" style="width: 13.3em; height: 1.9em;">
                     <option value="sysadmin">System Admin</option>
                     <option value="reguser">Regular User</option>
                     <option value="comadmin">Company Admin</option>
