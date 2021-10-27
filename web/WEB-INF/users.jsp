@@ -13,7 +13,7 @@
             <input type="text" name="email" placeholder="Email"><br>
             <input type="text" name="firstname" placeholder="First Name"><br>
             <input type="text" name="lastname" placeholder="Last Name"><br>
-            <input type="text" name="password" placeholder="Password"><br>
+            <input type="password" name="password" placeholder="Password"><br>
             <select name="role" style="width: 13.3em; height: 2em;">
                 <option value="sysadmin">System Admin</option>
                 <option value="reguser">Regular User</option>
