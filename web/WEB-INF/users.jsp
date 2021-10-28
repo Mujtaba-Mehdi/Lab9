@@ -1,4 +1,5 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -44,14 +45,20 @@
                 <tr>
                 </tr>
                 
-                <tr >
-                    <td>TEMP</td>
-                    <td>TEMP</td>
-                    <td>TEMP</td>
-                    <td>TEMP</td>
-                    <td>TEMP</td>
-                    <td>TEMP</td>
-                </tr>
+                <c:forEach var="user" items="${users}">
+                    
+                    <tr>
+                        <td>${user.email}</td>
+                        <td>${user.firstname}</td>
+                        <td>${user.lastname}</td>
+                        <td>TEMP</td>
+                        <td>TEMP</td>
+                        <td>TEMP</td>
+                    </tr>
+                    
+                </c:forEach>
+                
+                
                 
             </table>
         </form>
