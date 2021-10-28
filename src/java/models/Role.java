@@ -1,18 +1,38 @@
 package models;
 
 public class Role {
-    String role;
-
-    public Role(String role) {
-        this.role = role;
+    
+    int roleId;
+    String roleName;
+    
+    public Role(int roleId, String roleName) {
+        this.roleId = roleId;
+        this.roleName = roleName;
     }
 
-    public String getRole() {
-        return role;
+    public Role() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public int getRoleId() {
+        return roleId;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+   
+
+    
+    
+
     
 }
