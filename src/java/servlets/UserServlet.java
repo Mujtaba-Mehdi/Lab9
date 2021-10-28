@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import models.Role;
 import models.User;
 
 
@@ -28,13 +29,31 @@ public class UserServlet extends HttpServlet {
         
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
+        PreparedStatement ps;
         
         String users = "Select * From user;";
+        String role = "Select * From Role;";
+        
+        ArrayList<Role> roleList = new ArrayList<>();
+        ArrayList<User> userList = new ArrayList<>();
         
         try {
-            PreparedStatement ps = connection.prepareStatement(users);
+            //for role
+            ps = connection.prepareStatement(role);
+            ResultSet roles = ps.executeQuery();
+            
+            
+            while (roles.next()) {
+                int roleID = roles.getInt(1);
+                String roleName = roles.getString(2);
+                Role r = new Role(roleID, roleName);
+                roleList.add(r);
+            }
+            
+            //for users
+            ps = connection.prepareStatement(users);
             ResultSet user = ps.executeQuery();
-            ArrayList<User> userList = new ArrayList<>();
+            
         
             while (user.next()){
                 String email = user.getString(1);
@@ -42,12 +61,16 @@ public class UserServlet extends HttpServlet {
                 String first_name = user.getString(3);
                 String last_name = user.getString(4);
                 String password = user.getString(5);
-                int role = user.getInt(6);
-                User addUser = new User(email, active, first_name, last_name, password);
+                int userRole = user.getInt(6);
+                
+                Role newRole = roleList.get(userRole - 1);
+                
+                User addUser = new User(email, active, first_name, last_name, password, newRole.getRoleName());
                 userList.add(addUser);
             }
             
             session.setAttribute("users", userList);
+            session.setAttribute("roles", roleList);
             
         } catch (SQLException ex) {
             

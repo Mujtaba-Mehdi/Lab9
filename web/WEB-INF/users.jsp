@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -8,8 +9,8 @@
     </head>
     <body style="text-align: center;">
         
-        <div style="float: left; padding:1%; width: 30%;" >
-            <form action="" >
+        <div style="float: left; padding:1%; width: 15%; table-layout: fixed; margin: auto; ">
+            <form action="" style=" position: relative;">
             <h1>Add User</h1>
             <input type="text" name="email" placeholder="Email"><br>
             <input type="text" name="firstname" placeholder="First Name"><br>
@@ -25,10 +26,10 @@
         </div>
         
         
-        <div style=" float: left; padding:1%; width: 32%; ">
-            <form action="" >
+        <div style=" float: left; padding:1%; width: 62%; margin: auto;">
+            <form action="" style=" position: relative;">
             <h1>Manage User</h1>
-            <table style="text-align: center; width: 100%; border: 1px solid black;">
+            <table style="text-align: center; width: 100%; border: 1px solid black; table-layout: fixed;">
                 <tr>
                     <th style="text-align: center; border: 1px solid black;">Email</th>
                     <th style="text-align: center; border: 1px solid black;">First Name</th>
@@ -51,7 +52,7 @@
                         <td>${user.email}</td>
                         <td>${user.firstname}</td>
                         <td>${user.lastname}</td>
-                        <td>TEMP</td>
+                        <td>${user.role}</td>
                         <td>TEMP</td>
                         <td>TEMP</td>
                     </tr>
@@ -65,8 +66,8 @@
         </div>
         
         
-        <div style="float: right; padding:1%; width: 32%;">
-            <form action="">
+        <div style="float: right; padding:1%; width: 15%; margin: auto;">
+            <form action="" style=" position: relative;">
                 <h1>Edit User</h1>
                 <input type="text" name="email" value="${User.email}"><br>
                 <input type="text" name="firstname" value="${User.firstname}"><br>
