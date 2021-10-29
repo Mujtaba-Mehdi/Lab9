@@ -7,10 +7,10 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Users</title>
     </head>
-    <body style="text-align: center;">
+    <body style="text-align: center; padding: 1%">
         
-        <div style="float: left; padding:1%; width: 15%; table-layout: fixed; margin: auto; ">
-            <form action="" style=" position: relative;">
+        <div style="float: left; padding:1%; width: 15%; margin-right: 1%;">
+            <form action="">
             <h1>Add User</h1>
             <input type="text" name="email" placeholder="Email"><br>
             <input type="text" name="firstname" placeholder="First Name"><br>
@@ -25,18 +25,17 @@
         </form>
         </div>
         
-        
         <div style=" float: left; padding:1%; width: 62%; margin: auto;">
             <form action="" style=" position: relative;">
             <h1>Manage User</h1>
-            <table style="text-align: center; width: 100%; border: 1px solid black; table-layout: fixed;">
+            <table style="text-align: center; width: 100%; border: 1px solid black;">
                 <tr>
-                    <th style="text-align: center; border: 1px solid black;">Email</th>
-                    <th style="text-align: center; border: 1px solid black;">First Name</th>
-                    <th style="text-align: center; border: 1px solid black;">Last Name</th>
-                    <th style="text-align: center; border: 1px solid black;">Role</th>
-                    <th style="text-align: center; border: 1px solid black;">Edit</th>
-                    <th style="text-align: center; border: 1px solid black;">Delete</th>
+                    <td style="border: 1px solid black;">Email</td>
+                    <td style="border: 1px solid black;">First Name</td>
+                    <td style="border: 1px solid black;">Last Name</td>
+                    <td style="border: 1px solid black;">Role</td>
+                    <td style=" border: 1px solid black;">Edit</td>
+                    <td style=" border: 1px solid black;">Delete</td>
                 </tr>
                 
                 <tr>
@@ -66,6 +65,7 @@
         </div>
         
         
+        
         <div style="float: right; padding:1%; width: 15%; margin: auto;">
             <form action="" style=" position: relative;">
                 <h1>Edit User</h1>
@@ -81,6 +81,8 @@
                 <input type="submit" value="Cancel" style="width: 13.3em; height: 2em;">
             </form>
         </div>
+                    
+        
         
 
     </body>
