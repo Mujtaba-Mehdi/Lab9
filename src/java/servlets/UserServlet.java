@@ -27,6 +27,8 @@ public class UserServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         
+        session.setAttribute("editFlag", false);
+        
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps;
@@ -85,5 +87,24 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        String action = request.getParameter("action");
+        HttpSession session = request.getSession();
+        
+        switch (action) {
+            
+            case "add":
+                
+            case "edit":
+                session.setAttribute("editFlag", true);
+                getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+                return;
+                
+            case "delete":
+                
+            case "saveEdit":
+                
+            case "cancelEdit":
+        }
     }
 }
