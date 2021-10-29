@@ -1,10 +1,10 @@
 package models;
-
 /**
  *
  * @author mujta
  */
 public class User {
+
     String email;
     boolean active;
     String firstname;
@@ -25,7 +25,11 @@ public class User {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public User(String email, boolean active, String firstname, String lastname) {
+    public User(String email, boolean active, String firstname, String lastname, String role) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public User() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -43,6 +47,10 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean getActive() {
+        return active;
     }
 
     public String getFirstname() {
@@ -76,10 +84,13 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
-    
-    
-    
-            
-    
-    
+
+    public void setUserId(String email, boolean active, String firstname, String lastname, String password, String role) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public void add(User user) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }
