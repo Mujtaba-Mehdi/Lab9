@@ -53,7 +53,8 @@
                             <td>${user.lastname}</td>
                             <td>${user.role}</td>
                             <td><button type="submit" value="edit" name="action">Edit</button></td>
-                            <td><button type="submit" value="delete" name="action">Delete</button></td>
+                            <td><button type="submit" value="${user.email}" name="user">Delete</button></td>
+                            <input type="hidden" name="action" value="delete">
                         </tr>
 
                     </c:forEach>

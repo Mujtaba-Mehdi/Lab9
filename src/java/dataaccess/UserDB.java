@@ -77,7 +77,7 @@ public class UserDB {
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
         
-        //get correct role id hack way
+        //get correct role id, hack way
         int role = 99;
         
         switch (user.role) {
@@ -111,8 +111,27 @@ public class UserDB {
         }
     }
 
-    public void delete(User user) {
+    public void delete(String email) throws SQLException {
+        
+        //connect
+        ConnectionPool cp = ConnectionPool.getInstance();
+        Connection con = cp.getConnection();
+        PreparedStatement ps = null;
+        
+        //prepare deletion
+        String sql = "DELETE FROM user WHERE email= '"
+                + email +"';";
+        
+        //execute and close
+        try {
+            ps = con.prepareStatement(sql);
+            ps.executeUpdate();
 
+        } finally {
+            DBUtil.closePreparedStatement(ps);
+            cp.freeConnection(con);
+        }
+           
     }
 
     public void update(User user) {
