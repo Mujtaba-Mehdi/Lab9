@@ -1,32 +1,60 @@
 package dataaccess;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.Role;
+import models.User;
+import servlets.UserServlet;
 
 /**
  *
  * @author mujta
  */
 public class RoleDB {
-
-    public static Role get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    private ArrayList<Role> roleList;
+    
+    public RoleDB() {
+        roleList = null;
     }
 
-    public List<Role> getAll(int roleId, String role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public ArrayList<Role> getAll() {
+        
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps;
+        
+        String role = "Select * From Role;";
+        
+        roleList = new ArrayList<>();
+        
+        try {
+            //for role
+            ps = connection.prepareStatement(role);
+            ResultSet roles = ps.executeQuery();
+            
+            
+            while (roles.next()) {
+                int roleID = roles.getInt(1);
+                String roleName = roles.getString(2);
+                Role r = new Role(roleID, roleName);
+                roleList.add(r);
+            }
+            
+            pool.freeConnection(connection);
+                   
+        } catch (SQLException ex) {
+            
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return roleList;
     }
 
-    public void insert(Role role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void update(Role note) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public void delete(Role role) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }

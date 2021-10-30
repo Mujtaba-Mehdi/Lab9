@@ -12,16 +12,16 @@
         <div style="float: left; padding:1%; width: 15%; margin-right: 1%;">
             <form method="POST" action="">
                 <h1>Add User</h1>
-                <input type="text" name="email" placeholder="Email"><br>
-                <input type="text" name="firstname" placeholder="First Name"><br>
-                <input type="text" name="lastname" placeholder="Last Name"><br>
-                <input type="password" name="password" placeholder="Password"><br>
+                <input type="text" name="email" placeholder="Email" required><br>
+                <input type="text" name="firstname" placeholder="First Name" required><br>
+                <input type="text" name="lastname" placeholder="Last Name" required><br>
+                <input type="password" name="password" placeholder="Password" required><br>
                 <select name="role" style="width: 13.3em; height: 1.9em;">
-                    <option value="sysadmin">System Admin</option>
-                    <option value="reguser">Regular User</option>
-                    <option value="comadmin">Company Admin</option>
+                    <option value="system admin">System Admin</option>
+                    <option value="regular user">Regular User</option>
+                    <option value="company admin">Company Admin</option>
                 </select><br>
-                <input type="submit" value="add" name="action" style="width: 13.3em; height: 2em;">
+                <input type="submit" value="Add" name="action" style="width: 13.3em; height: 2em;">
             </form>
         </div>
         
@@ -66,16 +66,16 @@
             <div style="float: right; padding:1%; width: 15%; margin: auto;">
                 <form method="POST" action="">
                     <h1>Edit User</h1>
-                    <input type="text" name="email" value="${User.email}"><br>
-                    <input type="text" name="firstname" value="${User.firstname}"><br>
-                    <input type="text" name="lastname" value="${User.lastname}"><br>
-                    <select name="role" value="${Role.role}" style="width: 13.3em; height: 1.9em;">
-                        <option value="sysadmin">System Admin</option>
-                        <option value="reguser">Regular User</option>
-                        <option value="comadmin">Company Admin</option>
+                    <input type="text" name="newEmail" value="${User.email}"><br>
+                    <input type="text" name="newfirstname" value="${User.firstname}"><br>
+                    <input type="text" name="newlastname" value="${User.lastname}"><br>
+                    <select name="newrole" value="${Role.role}" style="width: 13.3em; height: 1.9em;">
+                        <option value="system admin">System Admin</option>
+                        <option value="regular user">Regular User</option>
+                        <option value="company admin">Company Admin</option>
                     </select><br>
-                    <input type="submit" value="saveEdit" name="action" style="width: 13.3em; height: 2em;"><br>
-                    <input type="submit" value="cancelEdit" name="action" style="width: 13.3em; height: 2em;">
+                    <input type="submit" value="Save" name="action" style="width: 13.3em; height: 2em;"><br>
+                    <input type="submit" value="Cancel" name="action" style="width: 13.3em; height: 2em;">
                 </form>
             </div>
         </c:if>

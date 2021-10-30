@@ -5,12 +5,12 @@ package models;
  */
 public class User {
 
-    String email;
-    boolean active;
-    String firstname;
-    String lastname;
-    String password;
-    String role;
+    public String email;
+    public boolean active;
+    public String firstname;
+    public String lastname;
+    public String password;
+    public String role;
 
     public User(String email, boolean active, String firstname, String lastname, String password, String role) {
         this.email = email;

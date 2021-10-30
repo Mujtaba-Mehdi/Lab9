@@ -1,6 +1,8 @@
 package servlets;
 
 import dataaccess.ConnectionPool;
+import dataaccess.RoleDB;
+import dataaccess.UserDB;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -27,49 +29,17 @@ public class UserServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         
+        //initialze all variables
         session.setAttribute("editFlag", false);
         
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps;
-        
-        String users = "Select * From user;";
-        String role = "Select * From Role;";
-        
-        ArrayList<Role> roleList = new ArrayList<>();
-        ArrayList<User> userList = new ArrayList<>();
+        //get database results
+        UserDB userDB = new UserDB();
+        RoleDB roleDB = new RoleDB();
         
         try {
-            //for role
-            ps = connection.prepareStatement(role);
-            ResultSet roles = ps.executeQuery();
             
-            
-            while (roles.next()) {
-                int roleID = roles.getInt(1);
-                String roleName = roles.getString(2);
-                Role r = new Role(roleID, roleName);
-                roleList.add(r);
-            }
-            
-            //for users
-            ps = connection.prepareStatement(users);
-            ResultSet user = ps.executeQuery();
-            
-        
-            while (user.next()){
-                String email = user.getString(1);
-                boolean active = user.getBoolean(2);
-                String first_name = user.getString(3);
-                String last_name = user.getString(4);
-                String password = user.getString(5);
-                int userRole = user.getInt(6);
-                
-                Role newRole = roleList.get(userRole - 1);
-                
-                User addUser = new User(email, active, first_name, last_name, password, newRole.getRoleName());
-                userList.add(addUser);
-            }
+            ArrayList<User> userList = userDB.getAll();
+            ArrayList<Role> roleList = roleDB.getAll();
             
             session.setAttribute("users", userList);
             session.setAttribute("roles", roleList);
@@ -88,13 +58,43 @@ public class UserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String action = request.getParameter("action");
         HttpSession session = request.getSession();
+        String action = request.getParameter("action");
+        
+        //access the user DB
+        UserDB userDB = new UserDB();
+        
         
         switch (action) {
             
-            case "add":
+            case "Add":
                 
+                String email = request.getParameter("email");
+                String firstname = request.getParameter("firstname");
+                String lastname = request.getParameter("lastname");
+                String password = request.getParameter("password");
+                String role = request.getParameter("role");
+                
+                if (email != null && firstname != null && lastname != null && password != null && role != null) {
+                    
+                    User newUser = new User(email, true, firstname, lastname, password, role);
+                    try {
+                        userDB.insert(newUser);
+                        session.setAttribute("users", userDB.getAll());
+                    } catch (SQLException s) {
+                        System.out.println("Failed to add new user to the database");
+                    }
+                    
+                    
+                    
+                    getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+                    return;
+                } else {
+                    getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+                    return;
+                }
+           
+                 
             case "edit":
                 session.setAttribute("editFlag", true);
                 getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
@@ -102,9 +102,12 @@ public class UserServlet extends HttpServlet {
                 
             case "delete":
                 
-            case "saveEdit":
+            case "Save":
                 
-            case "cancelEdit":
+            case "Cancel":
+                
+            default:
+                return;
         }
     }
 }

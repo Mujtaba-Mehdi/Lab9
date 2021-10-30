@@ -6,64 +6,103 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import models.Role;
 import models.User;
+import servlets.UserServlet;
 
 /**
  *
  * @author mujta
  */
 public class UserDB {
+    
+    private ArrayList<Role> roleList;
+    private ArrayList<User> userList;
 
     public static User get() {
 
         return null;
     }
 
-    public List<User> getAll(String email, boolean active, String firstname, String lastname, String password, String role) throws SQLException {
+    public ArrayList<User> getAll() throws SQLException {
 
-        List<User> users = new ArrayList<>();
-        ConnectionPool cp = ConnectionPool.getInstance();
-        Connection con = cp.getConnection();
-        PreparedStatement ps = null;
-        ResultSet rs = null;
 
-        String sql = "SELECT * FROM user where role=?";
-
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps;
+        
+        String users = "Select * From user;";
+       
+        RoleDB roleDB = new RoleDB();
+        roleList = roleDB.getAll();
+        userList = new ArrayList<>();
+        
         try {
-            ps = con.prepareStatement(sql);
-            ps.setString(1, role);
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                email = rs.getString(1);
-                active = rs.getBoolean(2);
-                firstname = rs.getString(3);
-                lastname = rs.getString(4);
-                User user = new User(email, active, firstname, lastname, role);
-                users.add(user);
+            
+            //for users
+            ps = connection.prepareStatement(users);
+            ResultSet user = ps.executeQuery();
+            
+        
+            while (user.next()){
+                String email = user.getString(1);
+                boolean active = user.getBoolean(2);
+                String first_name = user.getString(3);
+                String last_name = user.getString(4);
+                String password = user.getString(5);
+                int userRole = user.getInt(6);
+                
+                Role newRole = roleList.get(userRole - 1);
+                
+                User addUser = new User(email, active, first_name, last_name, password, newRole.getRoleName());
+                userList.add(addUser);
             }
-        } finally {
-            DBUtil.closeResultSet(rs);
-            DBUtil.closePreparedStatement(ps);
-            cp.freeConnection(con);
+            
+            pool.freeConnection(connection);
+            
+        } catch (SQLException ex) {
+            
+            Logger.getLogger(UserServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return users;
+        return userList;
     }
 
     public void insert(User user) throws SQLException {
+        
+        //connect
         ConnectionPool cp = ConnectionPool.getInstance();
         Connection con = cp.getConnection();
         PreparedStatement ps = null;
-        String sql = "INSERT INTO note (email, active, first_name, last_name, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+        
+        //get correct role id hack way
+        int role = 99;
+        
+        switch (user.role) {
+            case "system admin":
+                role = 1;
+                break;
+            case "regular user":
+                role = 2;
+                break;
+            case "company admin":
+                role = 3;
+                break;
+        }
+        
+        //prepare insertion
+        String sql = "INSERT INTO user "
+                + "values('" + user.email 
+                + "', "+ user.active
+                +  ", '"+ user.firstname
+                + "', '"+ user.lastname
+                + "', '"+ user.password
+                + "', "+ role + ");";
 
         try {
             ps = con.prepareStatement(sql);
-            ps.setString(1, user.getEmail());
-            ps.setBoolean(2, user.getActive());
-            ps.setString(3, user.getFirstname());
-            ps.setString(4, user.getLastname());
-            ps.setString(5, user.getPassword());
-            ps.setString(6, user.getRole());
             ps.executeUpdate();
 
         } finally {
