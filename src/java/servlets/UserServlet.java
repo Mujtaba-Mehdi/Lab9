@@ -58,7 +58,12 @@ public class UserServlet extends HttpServlet {
             throws ServletException, IOException {
 
         HttpSession session = request.getSession();
+        
+        //find out what needs to be done
         String action = request.getParameter("action");
+        
+        //reset the error message
+        session.setAttribute("errorMessage", "");
 
         //access the user DB
         UserDB userDB = new UserDB();
@@ -81,6 +86,7 @@ public class UserServlet extends HttpServlet {
                         session.setAttribute("users", userDB.getAll());
                     } catch (SQLException s) {
                         System.out.println("Failed to add new user to the database");
+                        session.setAttribute("errorMessage", "The email already exists in the database");
                     }
 
                     getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
@@ -91,7 +97,24 @@ public class UserServlet extends HttpServlet {
                 }
 
             case "edit":
+                
                 session.setAttribute("editFlag", true);
+                email = request.getParameter("user");
+                
+                User user = null;
+                try {
+                    user = userDB.getUser(email);
+                    
+                } catch (SQLException s) {
+                    System.out.println("Failed to retrieve user information from the database");
+                }
+                
+                session.setAttribute("newemail", user.getEmail());
+                session.setAttribute("newfirstname", user.getFirstname());
+                session.setAttribute("newlastname", user.getLastname());
+                session.setAttribute("newrole", user.getRole());
+
+                
                 getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
                 return;
 
@@ -102,16 +125,37 @@ public class UserServlet extends HttpServlet {
                     userDB.delete(email);
                     session.setAttribute("users", userDB.getAll());
                 } catch (SQLException s) {
-                    System.out.println("Failed to add new user to the database");
+                    System.out.println("Failed to delete user from the database");
                 }
                 
                 getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
                 return;
 
             case "Save":
+                
+                session.setAttribute("editFlag", false);
+                String newEmail = request.getParameter("newemail");
+                String newFirst = request.getParameter("newfirstname");
+                String newLast = request.getParameter("newlastname");
+                String newRole = request.getParameter("newrole");
+                
+                
+                try {
+                    userDB.update(newEmail, newFirst, newLast, newRole);
+                    session.setAttribute("users", userDB.getAll());
+                } catch (SQLException e) {
+                    System.out.println("Failed to update user");
+                }
+                
+                getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+                return;
 
             case "Cancel":
-
+                session.setAttribute("editFlag", false);
+                
+                getServletContext().getRequestDispatcher("/WEB-INF/users.jsp").forward(request, response);
+                return;
+              
             default:
                 return;
         }

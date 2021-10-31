@@ -52,9 +52,19 @@
                             <td>${user.firstname}</td>
                             <td>${user.lastname}</td>
                             <td>${user.role}</td>
-                            <td><button type="submit" value="edit" name="action">Edit</button></td>
-                            <td><button type="submit" value="${user.email}" name="user">Delete</button></td>
-                            <input type="hidden" name="action" value="delete">
+                            <td>
+                                <button type="submit" value="${user.email}" name="user">Edit</button>
+                                <input type="hidden" name="action" value="edit">
+                            </td>
+                            <td>
+                                <form method="POST" action="">
+                                    <button type="submit" value="${user.email}" name="user">Delete</button>
+                                    <input type="hidden" name="action" value="delete">
+                                </form>
+
+                            </td>
+                            
+                            
                         </tr>
 
                     </c:forEach>
@@ -67,19 +77,37 @@
             <div style="float: right; padding:1%; width: 15%; margin: auto;">
                 <form method="POST" action="">
                     <h1>Edit User</h1>
-                    <input type="text" name="newEmail" value="${User.email}"><br>
-                    <input type="text" name="newfirstname" value="${User.firstname}"><br>
-                    <input type="text" name="newlastname" value="${User.lastname}"><br>
-                    <select name="newrole" value="${Role.role}" style="width: 13.3em; height: 1.9em;">
-                        <option value="system admin">System Admin</option>
-                        <option value="regular user">Regular User</option>
-                        <option value="company admin">Company Admin</option>
-                    </select><br>
+                    <input type="text" name="newemail" value="${newemail}" readonly><br>
+                    <input type="text" name="newfirstname" value="${newfirstname}" required><br>
+                    <input type="text" name="newlastname" value="${newlastname}" required><br>
+                    <c:if test="${newrole == 'system admin'}">
+                        <select name="newrole" value="${newrole}" style="width: 13.3em; height: 1.9em;">
+                            <option value="system admin" selected>System Admin</option>
+                            <option value="regular user" >Regular User</option>
+                            <option value="company admin">Company Admin</option>
+                        </select><br>
+                    </c:if>
+                    <c:if test="${newrole == 'regular user'}">
+                        <select name="newrole" value="${newrole}" style="width: 13.3em; height: 1.9em;">
+                            <option value="system admin">System Admin</option>
+                            <option value="regular user" selected>Regular User</option>
+                            <option value="company admin">Company Admin</option>
+                        </select><br>
+                    </c:if>
+                    <c:if test="${newrole == 'company admin'}">
+                        <select name="newrole" value="${newrole}" style="width: 13.3em; height: 1.9em;">
+                            <option value="system admin">System Admin</option>
+                            <option value="regular user">Regular User</option>
+                            <option value="company admin" selected>Company Admin</option>
+                        </select><br>
+                    </c:if>
+                    
                     <input type="submit" value="Save" name="action" style="width: 13.3em; height: 2em;"><br>
                     <input type="submit" value="Cancel" name="action" style="width: 13.3em; height: 2em;">
                 </form>
             </div>
         </c:if>
         
+        <h2 style="color: red;">${errorMessage}</h2>
     </body>
 </html>
