@@ -119,7 +119,8 @@ public class UserServlet extends HttpServlet {
                 return;
 
             case "delete":
-
+                
+                session.setAttribute("editFlag", false);
                 email = request.getParameter("user");
                 try {
                     userDB.delete(email);
