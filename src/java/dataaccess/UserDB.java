@@ -15,6 +15,7 @@ import servlets.UserServlet;
 /**
  *
  * @author mujta
+ * @author Therin
  */
 public class UserDB {
 
